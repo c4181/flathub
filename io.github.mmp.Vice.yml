@@ -16,8 +16,11 @@ modules:
   - name: vice
     buildsystem: simple
     build-commands:
+      #- cmake -S whisper.cpp -B whisper.cpp/build_go -DBUILD_SHARED_LIBS=OFF -DGGML_CPU=ON -DGGML_OPENMP=ON -DCMAKE_BUILD_TYPE=Release
+      #- cmake --build whisper.cpp/build_go
       - ./upstream-meta/linux/generate-manifest.sh resources cmd/vice/manifest.json
-      - go build -tags "imguifreetype,downloadresources" -o vice ./cmd/vice
+      #- go build -tags "imguifreetype,downloadresources" -o vice ./cmd/vice
+      - ./build.sh --release
       - install -Dm755 vice /app/bin/vice
       - mkdir -p /app/bin/fonts && cp -r fonts/*.zst /app/bin/fonts
       - install -D -t /app/bin vice-wrapper.sh
@@ -34,7 +37,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mmp/vice.git
-        tag: v0.13.3
+        commit: 9203d8a5affe6faf38854e61cbaa4f865904af62
       - type: git
         url: https://github.com/c4181/vice.git
         branch: add-linux-metadata
